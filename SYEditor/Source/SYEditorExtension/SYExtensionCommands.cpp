@@ -6,7 +6,9 @@
 
 void FSYExtensionCommands::RegisterCommands()
 {
-	UI_COMMAND(Command, "SYCommand", "Command Tooltip", EUserInterfaceActionType::Button, FInputGesture());
+	// friendly name: 실제 에디터에서 보여질 이름
+	
+	UI_COMMAND(Command, "SYCommand", "Desc: Command Tooltip", EUserInterfaceActionType::Button, FInputGesture());
 }
 
 void FSYExtensionActions::Action()
