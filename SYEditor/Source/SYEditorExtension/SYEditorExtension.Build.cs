@@ -8,7 +8,7 @@ public class SYEditorExtension : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "UnrealEd", "LevelEditor", "SlateCore", "Slate" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "UnrealEd", "LevelEditor", "SlateCore", "Slate", "SYEditor" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 	}

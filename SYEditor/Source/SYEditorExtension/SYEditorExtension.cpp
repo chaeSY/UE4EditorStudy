@@ -15,10 +15,6 @@ struct SYToolbarHandler
 	{
 		ToolbarBuilder.BeginSection("SY");
 
-		//FSlateIcon::FSlateIcon
-		// const FName& InStyleSetName, 
-		// const FName& InStyleName );
-
 		//get ui command
 		const TSharedPtr< const FUICommandInfo > UICommand(FSYExtensionCommands::Get().Command);
 		
@@ -52,7 +48,7 @@ struct SYMenuHandler
 	{
 		static void CreateSubMenu(FMenuBuilder& SubMenuBuilder)
 		{
-			SubMenuBuilder.AddMenuEntry(FSYExtensionCommands::Get().Command,
+			SubMenuBuilder.AddMenuEntry(FSYExtensionCommands::Get().OpenTestEditorCommand,
 				NAME_None,
 				TAttribute<FText>(),
 				TAttribute<FText>(),
@@ -63,14 +59,6 @@ struct SYMenuHandler
 	static void CreateMenu(FMenuBuilder& MenuBuilder)
 	{
 		MenuBuilder.BeginSection("Section1", LOCTEXT("SYMenu", "SY Menu Section1"));
-
-		//void AddMenuEntry(
-		// const TSharedPtr< const FUICommandInfo > InCommand, 
-		// FName InExtensionHook = NAME_None, 
-		// const TAttribute<FText>& InLabelOverride = TAttribute<FText>(), 
-		// const TAttribute<FText>& InToolTipOverride = TAttribute<FText>(), 
-		// const FSlateIcon& InIconOverride = FSlateIcon(), 
-		// FName InTutorialHighlightName = NAME_None)
 
 		// add default menu
 		MenuBuilder.AddMenuEntry(FSYExtensionCommands::Get().Command, 
@@ -98,9 +86,12 @@ void FSYEditorExtension::StartupModule()
 
 	FSYExtensionCommands::Register();
 
+	// binding action
 	CommandList = MakeShareable(new FUICommandList());
 	CommandList->MapAction(FSYExtensionCommands::Get().Command, FExecuteAction::CreateStatic(&FSYExtensionActions::Action), FCanExecuteAction());
+	CommandList->MapAction(FSYExtensionCommands::Get().OpenTestEditorCommand, FExecuteAction::CreateStatic(&FSYExtensionActions::ActionOpenTestEditor), FCanExecuteAction());
 
+	// add menu and toolbar to LevelEditor
 	FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");
 
 	// create menu extender

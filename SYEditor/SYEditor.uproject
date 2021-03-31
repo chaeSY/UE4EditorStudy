@@ -3,20 +3,20 @@
 	"EngineAssociation": "4.25",
 	"Category": "",
 	"Description": "",
-  "Modules": [
-    {
-      "Name": "SYEditor",
-      "Type": "Runtime",
-      "LoadingPhase": "Default",
-      "AdditionalDependencies": [
-        "Engine"
-      ]
-    },
-    {
-      "Name": "SYEditorExtension",
-      "Type": "Editor",
-      "LoadingPhase": "Default"
-    }
-
-  ]
+	"Modules": [
+		{
+			"Name": "SYEditor",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"CoreUObject"
+			]
+		},
+		{
+			"Name": "SYEditorExtension",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
 }

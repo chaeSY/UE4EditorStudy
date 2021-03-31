@@ -17,10 +17,12 @@ public:
 
 public:
 	TSharedPtr<class FUICommandInfo> Command;
+	TSharedPtr<class FUICommandInfo> OpenTestEditorCommand;
 };
 
 class FSYExtensionActions
 {
 public:
 	static void Action();
+	static void ActionOpenTestEditor();
 };
