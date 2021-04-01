@@ -20,7 +20,7 @@ void FSYExtensionStyle::Init()
 {
 	if (!Instance.IsValid())
 	{
-		Instance = Create(); // TSharedRef에서 TSharedPtr을 바로 받을 수 있나?
+		Instance = Create();
 		FSlateStyleRegistry::RegisterSlateStyle(*Instance);
 	}
 }
@@ -39,16 +39,17 @@ void FSYExtensionStyle::ReloadTexture()
 
 TSharedRef<FSlateStyleSet> FSYExtensionStyle::Create()
 {
-	TSharedRef<FSlateStyleSet> Style = MakeShareable(new FSlateStyleSet(GetStyleSetName()));
-	Style->SetContentRoot(FPaths::ProjectContentDir() / TEXT("Editor/Icons"));
+	TSharedRef<FSlateStyleSet> StyleSet = MakeShareable(new FSlateStyleSet(GetStyleSetName()));
+	StyleSet->SetContentRoot(FPaths::ProjectContentDir() / TEXT("Editor/Icons"));
 
+	// StyleSet에 Property와 Icon을 등록
 	FName PropertyName = TEXT("SYExtensions.CommandIcon40");
-	FSlateImageBrush* Brush = new FSlateImageBrush(Style->RootToContentDir("Icon40", TEXT(".png")), FVector2D(40, 40));
-	Style->Set(PropertyName, Brush);
+	FSlateImageBrush* Brush = new FSlateImageBrush(StyleSet->RootToContentDir("Icon40", TEXT(".png")), FVector2D(40, 40));
+	StyleSet->Set(PropertyName, Brush);
 
-	Style->Set(TEXT("SYExtensions.CommandIcon20"), new FSlateImageBrush(Style->RootToContentDir("Icon20", TEXT(".png")), FVector2D(20, 20)));
-	Style->Set(TEXT("SYExtensions.CommandIcon16"), new FSlateImageBrush(Style->RootToContentDir("Icon16", TEXT(".png")), FVector2D(16, 16)));
+	StyleSet->Set(TEXT("SYExtensions.CommandIcon20"), new FSlateImageBrush(StyleSet->RootToContentDir("Icon20", TEXT(".png")), FVector2D(20, 20)));
+	StyleSet->Set(TEXT("SYExtensions.CommandIcon16"), new FSlateImageBrush(StyleSet->RootToContentDir("Icon16", TEXT(".png")), FVector2D(16, 16)));
 
 
-	return Style;
+	return StyleSet;
 }

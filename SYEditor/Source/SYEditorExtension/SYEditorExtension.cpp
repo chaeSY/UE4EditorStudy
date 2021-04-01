@@ -15,28 +15,43 @@ struct SYToolbarHandler
 	{
 		ToolbarBuilder.BeginSection("SY");
 
-		//get ui command
-		const TSharedPtr< const FUICommandInfo > UICommand(FSYExtensionCommands::Get().Command);
+		
+		// add messagebox command toolbar
+
+		// get ui command
+		const TSharedPtr< const FUICommandInfo > MessageBoxCommand(FSYExtensionCommands::Get().ShowMessageBoxCommand);
 		
 		// get slate icon
-		FName StyleName = TEXT("SYExtensions.CommandIcon40");
-		FSlateIcon SlateIcon(FSYExtensionStyle::GetStyleSetName(), StyleName);
-
+		FName PropertyName = TEXT("SYExtensions.CommandIcon40");
+		FSlateIcon SlateIcon40(FSYExtensionStyle::GetStyleSetName(), PropertyName);
+		
+		// add toolbar button
 		ToolbarBuilder.AddToolBarButton(
-			UICommand,
+			MessageBoxCommand,
 			NAME_None,
 			TAttribute<FText>(), // todo: TAttribute은 무엇인지?
 			TAttribute<FText>(),
-			SlateIcon);
+			SlateIcon40);
 
-		// AddToolBarButton
-		// const TSharedPtr< const FUICommandInfo > InCommand, 
-		// FName InExtensionHook, 
-		// const TAttribute<FText>& InLabelOverride, 
-		// const TAttribute<FText>& InToolTipOverride, 
-		// const TAttribute<FSlateIcon>& InIconOverride, 
-		// const EUserInterfaceActionType UserInterfaceActionType, 
-		// FName InTutorialHighlightName);
+		/* AddToolBarButton
+		 * const TSharedPtr< const FUICommandInfo > InCommand, 
+		 * FName InExtensionHook, 
+		 * const TAttribute<FText>& InLabelOverride, 
+		 * const TAttribute<FText>& InToolTipOverride, 
+		 * const TAttribute<FSlateIcon>& InIconOverride, 
+		 * const EUserInterfaceActionType UserInterfaceActionType, 
+		 * FName InTutorialHighlightName);
+		 */
+
+
+		// add OpenTestEditor command toolbar
+		ToolbarBuilder.AddToolBarButton(
+			FSYExtensionCommands::Get().OpenTestEditorCommand,
+			NAME_None,
+			TAttribute<FText>(),
+			TAttribute<FText>(),
+			FSlateIcon(FSYExtensionStyle::GetStyleSetName(), TEXT("SYExtensions.CommandIcon40")));
+
 
 		ToolbarBuilder.EndSection();
 	}
@@ -61,7 +76,7 @@ struct SYMenuHandler
 		MenuBuilder.BeginSection("Section1", LOCTEXT("SYMenu", "SY Menu Section1"));
 
 		// add default menu
-		MenuBuilder.AddMenuEntry(FSYExtensionCommands::Get().Command, 
+		MenuBuilder.AddMenuEntry(FSYExtensionCommands::Get().ShowMessageBoxCommand, 
 			NAME_None, 
 			TAttribute<FText>(), 
 			TAttribute<FText>(), 
@@ -88,7 +103,7 @@ void FSYEditorExtension::StartupModule()
 
 	// binding action
 	CommandList = MakeShareable(new FUICommandList());
-	CommandList->MapAction(FSYExtensionCommands::Get().Command, FExecuteAction::CreateStatic(&FSYExtensionActions::Action), FCanExecuteAction());
+	CommandList->MapAction(FSYExtensionCommands::Get().ShowMessageBoxCommand, FExecuteAction::CreateStatic(&FSYExtensionActions::Action), FCanExecuteAction());
 	CommandList->MapAction(FSYExtensionCommands::Get().OpenTestEditorCommand, FExecuteAction::CreateStatic(&FSYExtensionActions::ActionOpenTestEditor), FCanExecuteAction());
 
 	// add menu and toolbar to LevelEditor

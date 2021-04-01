@@ -10,8 +10,11 @@
 class FSYTestEditor : public FAssetEditorToolkit
 {
 public:
-	void Init(class USYTestAsset* Asset);
+	~FSYTestEditor();
 
+	void Init(class USYTestAsset* Asset);
+	void InitLayout();
+	void InitDetailView();
 	//
 	virtual void RegisterTabSpawners(const TSharedRef<class FTabManager>& InTabManager) override;
 	virtual void UnregisterTabSpawners(const TSharedRef<class FTabManager>& InTabManager) override;
@@ -29,4 +32,9 @@ private:
 	static const FName TestEditorIdentifier;
 	static const FName ViewportTabID;
 	static const FName DetailTabID;
+
+	TSharedPtr< class IDetailsView > DetailsView;
+	
+	class USYTestAsset* TestAsset; //UPROPERTY 안해도 되나?
+
 };

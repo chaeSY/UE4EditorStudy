@@ -10,7 +10,7 @@ void FSYExtensionCommands::RegisterCommands()
 {
 	// friendly name: 실제 에디터에서 보여질 이름
 	
-	UI_COMMAND(Command, "SYCommand", "Desc: Command Tooltip", EUserInterfaceActionType::Button, FInputGesture());
+	UI_COMMAND(ShowMessageBoxCommand, "ShowMessageBox", "Desc: Command Tooltip", EUserInterfaceActionType::Button, FInputGesture());
 
 	UI_COMMAND(OpenTestEditorCommand, "OpenTestEditor", "Open Test Editor", EUserInterfaceActionType::Button, FInputGesture());
 }

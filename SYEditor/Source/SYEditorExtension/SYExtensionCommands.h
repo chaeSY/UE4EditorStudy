@@ -16,7 +16,7 @@ public:
 	virtual void RegisterCommands() override;
 
 public:
-	TSharedPtr<class FUICommandInfo> Command;
+	TSharedPtr<class FUICommandInfo> ShowMessageBoxCommand;
 	TSharedPtr<class FUICommandInfo> OpenTestEditorCommand;
 };
 

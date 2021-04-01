@@ -4,11 +4,26 @@
 #include "SYExtensionStyle.h"
 #include "../SYEditor/SYTestAsset.h"
 
+#include "PropertyEditorModule.h"
+
 const FName FSYTestEditor::TestEditorIdentifier = FName("TestEditorID");
 const FName FSYTestEditor::ViewportTabID = FName("ViewportTabID");
 const FName FSYTestEditor::DetailTabID = FName("DetailTabID");
 
+FSYTestEditor::~FSYTestEditor()
+{
+	DetailsView.Reset();
+}
+
 void FSYTestEditor::Init(USYTestAsset* Asset)
+{
+	TestAsset = Asset;
+
+	InitDetailView();
+	InitLayout();
+}
+
+void FSYTestEditor::InitLayout()
 {
 	EToolkitMode::Type Mode = EToolkitMode::Type::Standalone;
 	TSharedPtr< class IToolkitHost > InitToolkitHost;
@@ -29,7 +44,7 @@ void FSYTestEditor::Init(USYTestAsset* Asset)
 				->Split
 				(
 					FTabManager::NewStack()
-					->SetSizeCoefficient(0.6f)
+					->SetSizeCoefficient(0.8f)
 					->AddTab(ViewportTabID, ETabState::OpenedTab)->SetHideTabWell(true) // Tab을 보이고 숨기는 기능. 근데 Well의 뜻이 뭐지?
 				)
 				->Split
@@ -42,7 +57,27 @@ void FSYTestEditor::Init(USYTestAsset* Asset)
 
 	const bool bCreateDefaultStandaloneMenu = true;
 	const bool bCreateDefaultToolbar = true;
-	FAssetEditorToolkit::InitAssetEditor(Mode, InitToolkitHost, TestEditorIdentifier, DefaultLayout, bCreateDefaultStandaloneMenu, bCreateDefaultToolbar, Asset);
+	FAssetEditorToolkit::InitAssetEditor(Mode, InitToolkitHost, TestEditorIdentifier, DefaultLayout, bCreateDefaultStandaloneMenu, bCreateDefaultToolbar, TestAsset);
+}
+
+void FSYTestEditor::InitDetailView()
+{
+	// create detail view
+	FPropertyEditorModule& PropertyEditor = FModuleManager::GetModuleChecked<FPropertyEditorModule>("PropertyEditor");
+	
+	const bool bIsUpdatable = false;
+	const bool bAllowFavorites = true;
+	const bool bAllowSearch = true;
+	const bool bIsLockable = false;
+	const FDetailsViewArgs DetailViewArgs(bIsUpdatable, bIsLockable, bAllowSearch, FDetailsViewArgs::ObjectsUseNameArea);
+
+	DetailsView = PropertyEditor.CreateDetailView(DetailViewArgs);
+
+	// set object
+	if (DetailsView.IsValid())
+	{
+		DetailsView->SetObject(TestAsset);
+	}
 }
 
 FName FSYTestEditor::GetToolkitFName() const
@@ -76,10 +111,11 @@ void FSYTestEditor::RegisterTabSpawners(const TSharedRef<class FTabManager>& InT
 
 	FAssetEditorToolkit::RegisterTabSpawners(InTabManager);
 
-	//**RegisterTabSpawner
-	//  const FName TabId, 
-	//  const FOnSpawnTab& OnSpawnTab, 
-	//  const FCanSpawnTab& CanSpawnTab
+	/* RegisterTabSpawner
+	 * const FName TabId, 
+	 * const FOnSpawnTab& OnSpawnTab, 
+	 * const FCanSpawnTab& CanSpawnTab
+	 */
 
 	// delegate 바인딩
 	// CreateSP: 슬레이트 인스턴스 바인딩
@@ -110,7 +146,11 @@ TSharedRef<SDockTab> FSYTestEditor::SpawnTab_Viewport(const FSpawnTabArgs& Args)
 TSharedRef<SDockTab> FSYTestEditor::SpawnTab_Detail(const FSpawnTabArgs& Args)
 {
 	check(Args.GetTabId() == DetailTabID);
-	return SNew(SDockTab);
+	return SNew(SDockTab)
+		[
+			DetailsView.ToSharedRef()
+
+		];
 }
 
 
