@@ -13,6 +13,8 @@
 
 class FSYEditor;
 class USYTestAsset;
+class FAdvancedPreviewScene;
+class FSYViewportClient;
 class SSYViewport : public SEditorViewport, public FGCObject
 {
 public:
@@ -31,8 +33,8 @@ protected:
 	virtual TSharedRef<class FEditorViewportClient> MakeEditorViewportClient() override;
 
 private:
-	TSharedPtr<class FAdvancedPreviewScene> PreviewScene;
-	TSharedPtr<class FSYViewportClient>		ViewportClient;
+	TSharedPtr<FAdvancedPreviewScene>	PreviewScene;
+	TSharedPtr<FSYViewportClient>		ViewportClient;
 	TWeakPtr<FSYEditor> Editor;
 	USYTestAsset*		TestAsset;
 };

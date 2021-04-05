@@ -21,7 +21,7 @@ class FAdvancedPreviewScene;
 class FSYViewportClient : public FEditorViewportClient, public TSharedFromThis<FSYViewportClient>
 {
 public:
-	FSYViewportClient(const TSharedRef<FSYEditor> InEditor, const TSharedRef<FAdvancedPreviewScene> InPreviewScene, const TSharedRef<SSYViewport> InViewport, USYTestAsset* InTestAsset);
+	FSYViewportClient(const TWeakPtr<FSYEditor> InEditor, const TSharedRef<FAdvancedPreviewScene> InPreviewScene, const TSharedRef<SSYViewport> InViewport, USYTestAsset* InTestAsset);
 	~FSYViewportClient();
 
 private:

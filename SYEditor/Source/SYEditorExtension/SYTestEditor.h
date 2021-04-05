@@ -15,6 +15,7 @@ public:
 	void Init(class USYTestAsset* Asset);
 	void InitLayout();
 	void InitDetailView();
+	void InitViewport();
 	//
 	virtual void RegisterTabSpawners(const TSharedRef<class FTabManager>& InTabManager) override;
 	virtual void UnregisterTabSpawners(const TSharedRef<class FTabManager>& InTabManager) override;
@@ -34,7 +35,7 @@ private:
 	static const FName DetailTabID;
 
 	TSharedPtr< class IDetailsView > DetailsView;
-	
+	TSharedPtr< class SSYViewport > Viewport;
 	class USYTestAsset* TestAsset; //UPROPERTY 안해도 되나?
 
 };

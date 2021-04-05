@@ -2,9 +2,9 @@
 
 #include "SYTestEditor.h"
 #include "SYExtensionStyle.h"
-#include "../SYEditor/SYTestAsset.h"
-
 #include "PropertyEditorModule.h"
+#include "SYViewport.h"
+#include "../SYEditor/SYTestAsset.h"
 
 const FName FSYTestEditor::TestEditorIdentifier = FName("TestEditorID");
 const FName FSYTestEditor::ViewportTabID = FName("ViewportTabID");
@@ -80,6 +80,15 @@ void FSYTestEditor::InitDetailView()
 	}
 }
 
+void FSYTestEditor::InitViewport()
+{
+	TSharedRef<FSYTestEditor> ref = SharedThis(this);
+
+	Viewport = SNew(SSYViewport)
+		//.Editor(SharedThis(this))
+		.TestAsset(TestAsset);
+}
+
 FName FSYTestEditor::GetToolkitFName() const
 {
 	return FName(TEXT("ToolkitName"));
@@ -140,7 +149,10 @@ void FSYTestEditor::UnregisterTabSpawners(const TSharedRef<class FTabManager>& I
 TSharedRef<SDockTab> FSYTestEditor::SpawnTab_Viewport(const FSpawnTabArgs& Args)
 {
 	check(Args.GetTabId() == ViewportTabID);
-	return SNew(SDockTab);
+	return SNew(SDockTab)
+		[
+			Viewport.ToSharedRef()
+		];
 }
 
 TSharedRef<SDockTab> FSYTestEditor::SpawnTab_Detail(const FSpawnTabArgs& Args)
