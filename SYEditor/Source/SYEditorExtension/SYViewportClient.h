@@ -14,19 +14,19 @@
 // 참고로, ViewportClient는 MakeEditorViewportClient 함수에서 생성한다.
 // MakeEditorViewportClinet는 SEditorViewport에서 상속받는 순수 가상함수이다.
 
-class FSYEditor;
+class FSYTestEditor;
 class SSYViewport;
 class USYTestAsset;
 class FAdvancedPreviewScene;
 class FSYViewportClient : public FEditorViewportClient, public TSharedFromThis<FSYViewportClient>
 {
 public:
-	FSYViewportClient(const TWeakPtr<FSYEditor> InEditor, const TSharedRef<FAdvancedPreviewScene> InPreviewScene, const TSharedRef<SSYViewport> InViewport, USYTestAsset* InTestAsset);
+	FSYViewportClient(const TWeakPtr<FSYTestEditor> InEditor, const TSharedRef<FAdvancedPreviewScene> InPreviewScene, const TSharedRef<SSYViewport> InViewport, USYTestAsset* InTestAsset);
 	~FSYViewportClient();
 
 private:
-	TWeakPtr<FSYEditor>		Editor;
-	TWeakPtr<SSYViewport>	SYViewport;
-	FAdvancedPreviewScene*	AdvancedPreviewScene;
-	USYTestAsset*			TestAsset;
+	TWeakPtr<FSYTestEditor>				Editor;
+	TWeakPtr<SSYViewport>				SYViewport;
+	TWeakPtr<FAdvancedPreviewScene>		AdvancedPreviewScene;
+	USYTestAsset*						TestAsset; //dangling pointer될 수 있음.
 };

@@ -5,5 +5,5 @@
 
 USYTestAsset::USYTestAsset()
 {
-	TestProperty = 0;
+
 }

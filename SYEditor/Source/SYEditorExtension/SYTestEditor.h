@@ -7,35 +7,43 @@
 #include "Toolkits/IToolkitHost.h"
 
 
-class FSYTestEditor : public FAssetEditorToolkit
+class IDetailsView;
+class SSYViewport;
+class USYTestAsset;
+class FSYTestEditor : public FAssetEditorToolkit, public FGCObject
 {
 public:
 	~FSYTestEditor();
 
 	void Init(class USYTestAsset* Asset);
-	void InitLayout();
-	void InitDetailView();
-	void InitViewport();
+
 	//
 	virtual void RegisterTabSpawners(const TSharedRef<class FTabManager>& InTabManager) override;
 	virtual void UnregisterTabSpawners(const TSharedRef<class FTabManager>& InTabManager) override;
 
-	virtual FName GetToolkitFName() const override;				// Must implement in derived class!
-	virtual FText GetBaseToolkitName() const override;			// Must implement in derived class!
-	virtual FString GetWorldCentricTabPrefix() const override;	// Must implement in derived class!
+	virtual FName GetToolkitFName() const override;				
+	virtual FText GetBaseToolkitName() const override;			
+	virtual FString GetWorldCentricTabPrefix() const override;	
 	virtual FLinearColor GetWorldCentricTabColorScale() const override;
 
 	TSharedRef<class SDockTab> SpawnTab_Viewport(const FSpawnTabArgs& Args);
 	TSharedRef<class SDockTab> SpawnTab_Detail(const FSpawnTabArgs& Args);
 
+	// FGCObject override
+	// FReferenceCollector에 등록한 UObject는 가비지컬렉션에서 RootSet으로 취급한다.
+	virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
 
 private:
 	static const FName TestEditorIdentifier;
 	static const FName ViewportTabID;
 	static const FName DetailTabID;
 
-	TSharedPtr< class IDetailsView > DetailsView;
-	TSharedPtr< class SSYViewport > Viewport;
-	class USYTestAsset* TestAsset; //UPROPERTY 안해도 되나?
+	void InitDetailView();
+	void InitViewport();
+	void InitLayout();
+
+	TSharedPtr<IDetailsView>	DetailsView;
+	TSharedPtr<SSYViewport>		Viewport;
+	USYTestAsset*				TestAsset; 
 
 };

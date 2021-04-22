@@ -15,8 +15,4 @@ class SYEDITOR_API USYTestAsset : public UObject
 	GENERATED_BODY()
 	
 	USYTestAsset();
-
-private:
-	UPROPERTY(Category = "Test", EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	int TestProperty;
 };

@@ -11,15 +11,15 @@
 // Viewport
 // 렌더링 관련 상태와 관련 컴포넌트를 관리
 
-class FSYEditor;
+class FSYTestEditor;
 class USYTestAsset;
 class FAdvancedPreviewScene;
 class FSYViewportClient;
-class SSYViewport : public SEditorViewport, public FGCObject
+class SSYViewport : public SEditorViewport
 {
 public:
 	SLATE_BEGIN_ARGS(SSYViewport){}
-		SLATE_ARGUMENT(TWeakPtr <FSYEditor>, Editor)
+		SLATE_ARGUMENT(TWeakPtr <FSYTestEditor>, Editor)
 		SLATE_ARGUMENT(USYTestAsset*, TestAsset)
 	SLATE_END_ARGS()
 
@@ -27,14 +27,13 @@ public:
 	SSYViewport();
 	~SSYViewport();
 
-	virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
-
 protected:
-	virtual TSharedRef<class FEditorViewportClient> MakeEditorViewportClient() override;
+	// Create ViewportClient
+	virtual TSharedRef<class FEditorViewportClient> MakeEditorViewportClient() override; 
 
 private:
 	TSharedPtr<FAdvancedPreviewScene>	PreviewScene;
 	TSharedPtr<FSYViewportClient>		ViewportClient;
-	TWeakPtr<FSYEditor> Editor;
-	USYTestAsset*		TestAsset;
+	TWeakPtr<FSYTestEditor>				Editor;
+	TWeakObjectPtr<USYTestAsset>		TestAsset;
 };

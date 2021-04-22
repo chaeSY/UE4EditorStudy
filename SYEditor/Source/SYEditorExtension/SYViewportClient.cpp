@@ -12,12 +12,12 @@
  *	const TWeakPtr<SEditorViewport>& InEditorViewportWidget = nullptr
  */
 
-FSYViewportClient::FSYViewportClient(const TWeakPtr<FSYEditor> InEditor, const TSharedRef<FAdvancedPreviewScene> InPreviewScene, const TSharedRef<SSYViewport> InViewport, USYTestAsset* InTestAsset)
+FSYViewportClient::FSYViewportClient(const TWeakPtr<FSYTestEditor> InEditor, const TSharedRef<FAdvancedPreviewScene> InPreviewScene, const TSharedRef<SSYViewport> InViewport, USYTestAsset* InTestAsset)
 	:FEditorViewportClient(nullptr, &InPreviewScene.Get(), InViewport)
-	//, Editor(InEditor)
-	//, SYViewport(InViewport)
-	//, AdvancedPreviewScene(InPreviewScene.Get())
-	//, TestAsset(InTestAsset)
+	, Editor(InEditor)
+	, SYViewport(InViewport)
+	, AdvancedPreviewScene(InPreviewScene)
+	, TestAsset(InTestAsset)
 {
 
 }

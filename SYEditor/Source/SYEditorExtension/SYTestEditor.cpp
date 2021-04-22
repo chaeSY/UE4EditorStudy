@@ -13,6 +13,7 @@ const FName FSYTestEditor::DetailTabID = FName("DetailTabID");
 FSYTestEditor::~FSYTestEditor()
 {
 	DetailsView.Reset();
+	Viewport.Reset();
 }
 
 void FSYTestEditor::Init(USYTestAsset* Asset)
@@ -20,6 +21,7 @@ void FSYTestEditor::Init(USYTestAsset* Asset)
 	TestAsset = Asset;
 
 	InitDetailView();
+	InitViewport();
 	InitLayout();
 }
 
@@ -45,7 +47,7 @@ void FSYTestEditor::InitLayout()
 				(
 					FTabManager::NewStack()
 					->SetSizeCoefficient(0.8f)
-					->AddTab(ViewportTabID, ETabState::OpenedTab)->SetHideTabWell(true) // Tab을 보이고 숨기는 기능. 근데 Well의 뜻이 뭐지?
+					->AddTab(ViewportTabID, ETabState::OpenedTab)->SetHideTabWell(true)
 				)
 				->Split
 				(
@@ -82,10 +84,8 @@ void FSYTestEditor::InitDetailView()
 
 void FSYTestEditor::InitViewport()
 {
-	TSharedRef<FSYTestEditor> ref = SharedThis(this);
-
 	Viewport = SNew(SSYViewport)
-		//.Editor(SharedThis(this))
+		.Editor(SharedThis(this))
 		.TestAsset(TestAsset);
 }
 
@@ -109,6 +109,11 @@ FString FSYTestEditor::GetWorldCentricTabPrefix() const
 FLinearColor FSYTestEditor::GetWorldCentricTabColorScale() const
 {
 	return FLinearColor(1.f, 0.f, 0.f, 1.f);
+}
+
+void FSYTestEditor::AddReferencedObjects(FReferenceCollector& Collector)
+{
+	Collector.AddReferencedObject(TestAsset);
 }
 
 void FSYTestEditor::RegisterTabSpawners(const TSharedRef<class FTabManager>& InTabManager)
@@ -161,7 +166,6 @@ TSharedRef<SDockTab> FSYTestEditor::SpawnTab_Detail(const FSpawnTabArgs& Args)
 	return SNew(SDockTab)
 		[
 			DetailsView.ToSharedRef()
-
 		];
 }
 
